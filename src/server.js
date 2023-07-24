@@ -5,6 +5,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import 'dotenv/config'
 import { Usuario } from './models/Usuario.js';
+import moment from 'moment';
 
 const app = express()
 app.use(
@@ -29,6 +30,13 @@ app.get('/usuarios', async (req, res) => {
     res.status(200).json(usuarios)
 });
 
+//pesquisando usuario por id
+app.get('/usuario/:id', async (req,res)=>{
+    const id = req.params.id
+    const usuario = await Usuario.findOne({_id: id})
+    res.status(200).json(usuario)
+    
+})
 //endpoint do Usuario Post
 app.post('/usuario', async (req, res) => {
     /*Acessar atraves de desestruturação de OBJETO */ 
@@ -37,14 +45,18 @@ app.post('/usuario', async (req, res) => {
 
 
 /*Ciar o usuario atraves do mongoose*/
-    await Usuario.create(usuario)
-    res.status(201).json("usuario criado com sucesso")
+    const usuarioDB = await Usuario.create(usuario)
+    res.status(201).json({
+    data: usuarioDB,
+    mensagem: "usuario criado com sucesso"
+});
 });
 
 //endpoint do Usuario Atualizar Update
 app.put('/usuario/:id', async (req, res) => {
     const id = req.params.id
 
+    //desestruturando o body, para nao precisar colocar req.body,nome, req.body.idade ...
     const {nome, idade, ativo, email} = req.body;
     const usuario = {nome,idade,ativo,email};
 
@@ -52,6 +64,17 @@ app.put('/usuario/:id', async (req, res) => {
   res.status(200).json("usuario atualizadinho");
 });
 
+// deletando um usuario do banco 
+app.delete('/usuario/:id', async(req,res)=> {
+    //primeiro buscar o usuario, antes de deletar
+    const id = req.params.id
+    const usuarioDB = await Usuario.findOne({_id :id})
+    await Usuario.deleteOne({_id: usuarioDB})
+    // agora descobrindo a data e hora do delete
+    let date = moment(new Date()).format('DD/MM/YYYY hh:mm:ss')
+   
+    res.status(200).json(`O usuario ${usuarioDB.nome} foi excluído com sucesso as:${date} !`)
+});
 
 //Criando constantes pra acessar o login do banco de dados
 const DB_USER = process.env.DB_USER;
