@@ -1,4 +1,5 @@
-import { Usuario } from "../models/Usuario";
+import { Usuario } from "../models/Usuario.js";
+import moment from 'moment';
 
 class UsuarioController {
 

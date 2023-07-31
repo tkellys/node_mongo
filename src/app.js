@@ -2,6 +2,7 @@
 import express from 'express'
 import 'dotenv/config'
 import morgan from 'morgan';
+import routes from './routes/index.js';
 
 const app = express()
 app.use(
@@ -9,7 +10,11 @@ app.use(
         extended:true,
     })
 );
-app.use(express.json())
+
+
+
+// chamando as rotas como paramentro app
+routes(app);
 
 app.use(morgan('tiny'))
 

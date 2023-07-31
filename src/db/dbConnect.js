@@ -8,7 +8,7 @@ const DB_PASS = process.env.DB_PASS;
 
 //conectando no banco mongo atlas
 /* Mongo ATLAS */
-export const dbConnect = mongoose
+ const dbConnect = mongoose
 .connect (`mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.aybtzfg.mongodb.net/dc_fs12?retryWrites=true&w=majority`)
 
 /*MONGO LOGAL PELO APP BAIXADO NO PC*/
@@ -19,3 +19,5 @@ export const dbConnect = mongoose
 .catch (error => {
     console.log('erro ao conectar', error);
 })
+
+export default dbConnect 
