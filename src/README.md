@@ -13,4 +13,7 @@ npm i nodemon express mongoose
     express framework do node que usa metodos http
     Nodemoon derruba e reinicializa o servidor para nao precisar ficar derrubando o servidor apos cada atualização
     Mongoose - para conseguir fazer comunicação com o banco de dados MONGO atraves dos metodos.
-    ``
+    ```
+# Mudando de branch:
+    ```js
+    git checkout "master"```
